@@ -50,7 +50,13 @@ class _MapScreenState extends State<MapScreen> {
           GoogleMap(
             initialCameraPosition: _initialCameraPosition,
             mapType: MapType.normal,
-            onMapCreated: (controller) => _controller.complete(controller),
+            onMapCreated: (controller) async {
+              String style = await DefaultAssetBundle.of(context)
+                  .loadString('assets/map_style.json');
+              //customize your map style at: https://mapstyle.withgoogle.com/
+              controller.setMapStyle(style);
+              _controller.complete(controller);
+            },
             onCameraMove: (e) => currentLocation = e.target,
             markers: _markers,
             polylines: _polylines,
